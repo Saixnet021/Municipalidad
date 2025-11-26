@@ -1,0 +1,71 @@
+<div class="container mx-auto px-4 py-8 animate-fade-in">
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-3xl font-display font-bold text-primary">Pago de Arbitrios</h1>
+      <p class="text-slate-500 mt-1">Consulta y paga tus obligaciones tributarias.</p>
+    </div>
+  </div>
+  
+  <div class="grid grid-cols-1 gap-8">
+    <!-- Debts List -->
+    <div class="card">
+      <h2 class="text-xl font-bold text-primary mb-6 flex items-center gap-2">
+        <svg class="w-5 h-5 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        Mis Deudas Pendientes
+      </h2>
+      <div class="overflow-x-auto rounded-lg border border-slate-200">
+        <table class="min-w-full divide-y divide-slate-200">
+          <thead class="bg-slate-50">
+            <tr>
+              <th class="table-header">Concepto</th>
+              <th class="table-header">Monto</th>
+              <th class="table-header">Estado</th>
+              <th class="table-header text-right">Acción</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-slate-200">
+            <tr *ngFor="let item of items" class="hover:bg-slate-50 transition-colors">
+              <td class="table-cell font-medium text-slate-900">{{item.tipo}}</td>
+              <td class="table-cell font-mono text-slate-700">S/ {{item.monto | number:'1.2-2'}}</td>
+              <td class="table-cell">
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium border"
+                  [ngClass]="{
+                    'bg-red-100 text-red-800 border-red-200': item.estadoPago === 'PENDIENTE',
+                    'bg-green-100 text-green-800 border-green-200': item.estadoPago === 'PAGADO',
+                    'bg-slate-100 text-slate-800 border-slate-200': item.estadoPago === 'CANCELADO'
+                  }">
+                  {{item.estadoPago}}
+                </span>
+              </td>
+              <td class="table-cell text-right">
+                <button *ngIf="item.estadoPago === 'PENDIENTE'" (click)="pay(item.id)"
+                  class="bg-green-600 hover:bg-green-700 text-white font-medium py-1.5 px-4 rounded-lg shadow-sm hover:shadow transition-all duration-200 text-sm flex items-center gap-1 ml-auto">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                  </svg>
+                  Pagar
+                </button>
+                <span *ngIf="item.estadoPago === 'PAGADO'" class="text-green-600 font-medium text-sm flex items-center justify-end gap-1">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Pagado
+                </span>
+              </td>
+            </tr>
+            <tr *ngIf="items.length === 0">
+              <td colspan="4" class="px-6 py-12 text-center text-slate-500">
+                <svg class="mx-auto h-12 w-12 text-slate-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <p>No tienes deudas pendientes</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
